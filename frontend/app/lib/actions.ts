@@ -8,6 +8,7 @@ const CreateUserSchema = z.object({
 });
 
 export async function createUser(formData: FormData) {
+  
   const { email, password } = CreateUserSchema.parse({
     email: formData.get("email"),
     password: formData.get("password"),
@@ -20,7 +21,9 @@ export async function createUser(formData: FormData) {
     },
     body: JSON.stringify({ email, password }),
   });
+
   if (!response.ok) {
-    throw new Error("Failed to create user");
+    const responseBody = await response.json();
+    throw new Error(responseBody.message);
   }
 }
