@@ -11,6 +11,7 @@ $ yarn install
 ## Running the app
 
 Create a `.env` file in the root of the project by copying the `.env.example` file and filling in the necessary values.
+Migrate prisma schema to database by running `npx prisma migrate dev`
 
 ```bash
 # development
