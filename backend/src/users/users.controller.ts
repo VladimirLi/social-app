@@ -1,7 +1,13 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Post,
+} from '@nestjs/common';
 import { Public } from 'src/auth/public.decorator';
 import { CreateUserDto } from './users.dto';
-import { UsersService } from './users.service';
+import { UserAlreadyExistsError, UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
@@ -10,7 +16,13 @@ export class UsersController {
   @Post('')
   @Public()
   async register(@Body() createUserDto: CreateUserDto) {
-    this.userService.create(createUserDto);
+    try {
+      await this.userService.create(createUserDto);
+    } catch (e) {
+      if (e instanceof UserAlreadyExistsError) {
+        throw new BadRequestException(e.message);
+      }
+    }
   }
 
   @Get('')

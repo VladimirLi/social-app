@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { Prisma, User } from '@prisma/client';
 import { CustomPrismaService } from 'nestjs-prisma';
 import { ExtendedPrismaClient } from 'src/prisma/prisma.extension';
 import { CreateUserDto } from './users.dto';
@@ -21,10 +21,20 @@ export class UsersService {
     return user || undefined;
   }
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    return this.prisma.user.create({
-      data: createUserDto,
-    });
+  async create(createUserDto: CreateUserDto): Promise<User | undefined> {
+    try {
+      const user = await this.prisma.user.create({
+        data: createUserDto,
+      });
+      return user;
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError) {
+        if (e.code === 'P2002') {
+          throw new UserAlreadyExistsError(createUserDto.email);
+        }
+      }
+    }
+    return undefined;
   }
 
   async getAll(): Promise<Partial<User>[]> {
@@ -34,5 +44,11 @@ export class UsersService {
         email: true,
       },
     });
+  }
+}
+
+export class UserAlreadyExistsError extends Error {
+  constructor(email: string) {
+    super(`User with email ${email} already exists`);
   }
 }
