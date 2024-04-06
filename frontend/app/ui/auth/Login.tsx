@@ -1,5 +1,6 @@
-import { Button } from "../ui/Button";
-import { Input } from "../ui/Input";
+import { Button } from "@/app/ui/common/Button";
+import { Input } from "@/app/ui/common/Input";
+import { PasswordInput } from "../common/PasswordInput";
 
 interface LoginProps {
   changeToSignUp: () => void;
@@ -13,11 +14,11 @@ export function Login(props: LoginProps) {
         <label htmlFor="email" className="block">
           Email
         </label>
-        <Input type="email" placeholder="Email" id="email" />
+        <Input type="email" placeholder="Email" id="email" name="email" />
         <label htmlFor="password" className="block mt-2">
           Password
         </label>
-        <Input type="password" placeholder="Password" id="password" />
+        <PasswordInput placeholder="Password" id="password" name="password" />
         <Button className="mt-4">Login</Button>
       </form>
       <p className="mt-4">

@@ -1,4 +1,4 @@
-interface InputProps extends React.ComponentPropsWithoutRef<"input"> {}
+export interface InputProps extends React.ComponentPropsWithoutRef<"input"> {}
 
 export function Input(props: InputProps) {
   const { className, ...rest } = props;

@@ -1,8 +1,8 @@
 "use client";
+import { Login } from "@/app/ui/auth/Login";
+import { SignUp } from "@/app/ui/auth/SignUp";
+import { Card } from "@/app/ui/common/Card";
 import React from "react";
-import { Card } from "../ui/Card";
-import { Login } from "./Login";
-import { SignUp } from "./SignUp";
 
 export default function AuthPage() {
   const [showLogin, setShowLogin] = React.useState(true);
