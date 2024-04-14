@@ -3,7 +3,9 @@ import { Button } from "@/app/ui/common/Button";
 import { Input } from "@/app/ui/common/Input";
 import { AxiosError } from "axios";
 import { useMutation } from "react-query";
+import { Alert } from "../common/Alert";
 import { PasswordInput } from "../common/PasswordInput";
+import { Snackbar } from "../common/Snackbar";
 
 interface SignUpProps {
   changeToLogin: () => void;
@@ -25,9 +27,9 @@ export function SignUp(props: SignUpProps) {
 
   const isMutating = signUpMutation.isLoading;
 
-  // TODO: Handle mutation error
-  const mutationError = (signUpMutation.error as AxiosError)?.response?.data;
-  console.log({ mutationError });
+  const mutationErrorResponseData = (signUpMutation.error as AxiosError)
+    ?.response?.data as { message: string } | undefined;
+  const errorMessage = mutationErrorResponseData?.message;
 
   return (
     <>
@@ -62,6 +64,10 @@ export function SignUp(props: SignUpProps) {
           Login
         </a>
       </p>
+
+      <Snackbar open={!!errorMessage} autoHideDuration={5000}>
+        <Alert color="error">{errorMessage}</Alert>
+      </Snackbar>
     </>
   );
 }

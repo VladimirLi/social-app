@@ -1,4 +1,5 @@
 import React from "react";
+
 interface SnackbarProps extends React.ComponentPropsWithoutRef<"div"> {
   open: boolean;
   onClose?: () => void;
@@ -25,7 +26,7 @@ export function Snackbar(props: SnackbarProps) {
 
   return (
     <div
-      className={`fixed bottom-4 left-4 w-full max-w-sm p-4 bg-white shadow-md rounded-md transition-transform transform ${
+      className={`fixed bottom-4 left-4 transition-transform transform ${
         show ? "translate-x-0" : "translate-x-full"
       }`}
       {...rest}
